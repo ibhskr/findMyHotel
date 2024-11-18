@@ -6,47 +6,34 @@ import { useNavigate, useParams } from "react-router-dom";
 //
 //
 function HotelCard({ hotel }) {
-  
   const navigate = useNavigate();
   const hotelId = hotel._id;
   return (
-    <div className="max-w-sm m-4 rounded overflow-hidden shadow-lg bg-white">
-      <img
-        className="w-full h-48 object-cover"
-        // src=
-        src={hotel?.image || altHotelImg}
-        alt={hotel?.hotelname}
-      />
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{hotel?.hotelname}</div>
-        <p className="text-gray-700 text-base">{hotel?.description}</p>
-        <p className="text-gray-600 text-sm mt-2">
-          Room Type: {hotel.roomType}
-        </p>
-        <p className="text-gray-600 text-sm mt-2">
-          Address: {hotel.address}, {hotel.city}, {hotel.state}, {hotel.zip}
-        </p>
+    <div
+      className="w-52  bg-gray-200 rounded-xl p-2 m-2 hover:cursor-pointer hover:border-blue-600 border hover:bg-blue-100 shadow-lg "
+      onClick={() => navigate(`/hotel/${hotelId}`)}
+    >
+      <div>
+        <img
+          src={hotel?.hotelImage || altHotelImg}
+          alt=""
+          className="rounded-xl"
+        />
       </div>
-      <div className="px-6 pt-4 pb-2">
-        {hotel.amenities.map((amenity, index) => (
-          <span
-            key={index}
-            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-          >
-            #{amenity}
-          </span>
-        ))}
-      </div>
-      <div className="px-6 py-4  flex items-center justify-between">
-        <span className="text-gray-700 font-semibold text-lg">
-          ${hotel.price} / night
-        </span>
-        <button
-          onClick={() => navigate(`/hotel/${hotelId}`)}
-          className=" bg-red-400 text-white px-4 py-2 rounded-lg border  hover:bg-transparent hover:text-red-500 hover:border hover:border-red-600 "
-        >
-          check availability
-        </button>
+      <div className="h-40 overflow-y-scroll">
+        <p className="font-bold hover:text-blue-600 ">{hotel?.hotelname}</p>
+        <p className="text-gray-700 text-sm">{hotel?.description}</p>
+        <p className="text-sm">{hotel?.address}</p>
+        <div className="">
+          {hotel.amenities.map((amenity, index) => (
+            <span
+              key={index}
+              className="inline-block  rounded-full  py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            >
+              #{amenity}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

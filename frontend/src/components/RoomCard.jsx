@@ -19,7 +19,11 @@ function RoomCard({ room }) {
       onClick={() => goToBookingPage(room._id)}
     >
       <div>
-        <img src={room?.img || altRoomImg} alt="" className="rounded-xl" />
+        <img
+          src={room?.hotel?.hotelImage || altRoomImg}
+          alt=""
+          className="rounded-xl"
+        />
       </div>
       <p className="font-bold hover:text-blue-600 ">{room?.hotel?.hotelname}</p>
       <p className="text-gray-500 font-bold ">{room?.type} Room</p>

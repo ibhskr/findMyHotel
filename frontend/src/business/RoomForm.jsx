@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
-
 //--
 //--
 function RoomForm() {
@@ -21,9 +20,9 @@ function RoomForm() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:8000/add-room", data);
+      const res = await axios.post("/api/add-room", data);
       console.log(res.data);
-      if(res.data.success == true){
+      if (res.data.success == true) {
         navigate(-1);
       }
     } catch (error) {
@@ -33,7 +32,12 @@ function RoomForm() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <button className=" absolute right-10 top-10 hover:bg-slate-300 p-3 rounded-full " onClick={() => navigate(-1)}><IoMdClose size={"24px"} /></button>
+      <button
+        className=" absolute right-10 top-10 hover:bg-slate-300 p-3 rounded-full "
+        onClick={() => navigate(-1)}
+      >
+        <IoMdClose size={"24px"} />
+      </button>
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4 text-center">Room Form</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

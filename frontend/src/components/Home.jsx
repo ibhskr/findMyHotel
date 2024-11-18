@@ -1,8 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../loader/Loader";
-import Rooms from "./Rooms"
+// import Rooms from "./Rooms"
+import { lazy } from "react";
 function Home() {
+  const Rooms = React.lazy(() => import("./Rooms"));
+
   const navigate = useNavigate();
   return (
     <div>
@@ -20,11 +23,10 @@ function Home() {
           <li>Surat</li>
         </ul>
       </div>
-      
 
-      <div>
-        <Rooms/>
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Rooms />
+      </Suspense>
     </div>
   );
 }

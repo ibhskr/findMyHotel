@@ -8,14 +8,20 @@ const hotelSchema = new mongoose.Schema(
     state: { type: String, required: true },
     country: { type: String, required: true },
     pin: { type: Number, required: true },
-    phone:{type: Number, required: true },
+    phone: { type: Number, required: true },
     description: { type: String },
     rating: { type: Number, min: 0, max: 5 },
     amenities: [String],
-    rooms: [ {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Room",
-    },]
+    hotelImage: {
+      type: String,
+    },
+
+    rooms: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Room",
+      },
+    ],
   },
   {
     timestamps: true,

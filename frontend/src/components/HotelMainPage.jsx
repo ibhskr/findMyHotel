@@ -10,22 +10,19 @@ const HotelDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const hotel = hotelDetails;
-  // console.log(hotel);
+  // console.log(hotel.rooms);
   // const rooms = hotelDetails.
   useEffect(() => {
-    async function fetchData() {
+    (async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/gethotel/${hotelId.id}`
-        );
+        const response = await axios.get(`/api/gethotel/${hotelId.id}`);
         setHotelDetails(response.data);
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
-    }
-    fetchData();
+    })();
   }, []);
 
   if (loading) {
@@ -35,17 +32,17 @@ const HotelDetails = () => {
   if (error) {
     return <div>Error fetching hotel details: {error.message}</div>;
   }
+
   // console.log(hotelDetails);
   return (
     <div className="m-4">
-      
       <div className="flex flex-col sm:flex-row sm:justify-center">
         {/* display image */}
         <div className="">
           <img
-            className="w-full h-44 sm:h-60 object-cover"
+            className="w-full h-44 sm:h-60 object-cover border"
             // src=
-            src={hotel?.image || altHotelImg}
+            src={hotel?.hotelImage || altHotelImg}
             alt={hotel?.hotelname}
           />
         </div>
@@ -63,8 +60,9 @@ const HotelDetails = () => {
           </p>
         </div>
       </div>
-      <h1 className=" ml-10 mt-10  text-gray-600 text-3xl font-bold">Rooms we offer</h1>
-
+      <h1 className=" ml-10 mt-10  text-gray-600 text-3xl font-bold">
+        Rooms we offer
+      </h1>
 
       {/* <RoomCard /> */}
       <div className="flex flex-wrap p-4">
@@ -73,7 +71,7 @@ const HotelDetails = () => {
             <RoomCard key={index} room={room} />
           ))
         ) : (
-          <p>Loading...</p>
+          <p>No Hotel Found.</p>
         )}
       </div>
     </div>

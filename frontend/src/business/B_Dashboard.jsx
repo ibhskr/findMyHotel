@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setHotelId } from "../redux/slice";
 import { TfiReload } from "react-icons/tfi";
 import BookingDetails from "./BookingDetails";
+import UploadHotelPicture from "./UploadHotelPicture";
+import toast from "react-hot-toast";
+
 function B_Dashboard() {
   const [refresh, setRefresh] = useState(false);
   const [hotel, setHotel] = useState({});
@@ -15,18 +16,9 @@ function B_Dashboard() {
   const [confBooking, setConfBooking] = useState(0);
   const [viewBooking, setviewBooking] = useState(false);
   const [viewBookingDetails, setviewBookingDetails] = useState([]);
-  // console.log(viewBookingDetails);
-  //--
-
-  //--
-  const dispatch = useDispatch();
+  const [uploadPhoto, setUploadPhoto] = useState(false);
   const { Id: hotelId } = useParams();
   const navigate = useNavigate();
-
-  
-  useEffect(() => {
-    dispatch(setHotelId(hotelId));
-  }, [dispatch, hotelId]);
 
   // for refresh icon
   const clickReload = () => {
@@ -37,9 +29,7 @@ function B_Dashboard() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:8000/getHotel/${hotelId}`
-        );
+        const res = await axios.get(`/api/getHotel/${hotelId}`);
         setHotel(res.data);
       } catch (error) {
         console.log(error);
@@ -52,9 +42,7 @@ function B_Dashboard() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:8000/get-booking-details/${hotelId}`
-        );
+        const res = await axios.get(`/api/get-booking-list/${hotelId}`);
         // console.log(res);
         setBookingDetails(res.data.bookings);
         setConfBooking(res.data.countStatus.confirm);
@@ -71,7 +59,7 @@ function B_Dashboard() {
     // console.log(status, bookingId);
     try {
       const res = await axios.put(
-        `http://localhost:8000/change-status?status=${status}&id=${bookingId}`
+        `/api/change-status?status=${status}&id=${bookingId}`
       );
       // console.log("Response:", res.data);
       setRefresh(!refresh);
@@ -80,23 +68,17 @@ function B_Dashboard() {
     }
   };
 
-  // useEffect(() => {
-  //   const sendData = async (bookingId,status) => {
-  //     try {
-  //       const res = await axios.put(`http://localhost:8000/change-status`, {
-  //         id:bookingId,
-  //         status,
-  //       });
-  //     } catch (error) {}
-  //   };
-  // });
-
   const deleteRoomHandle = async (id) => {
     // console.log("room id is:", id);
     try {
-      await axios.post(`http://localhost:8000/delete-room/`, { id });
-      console.log("Room deleted successfully");
+      const res = await axios.delete("/api/delete-room", {
+        data: { id },
+      });
+
+      toast.success(res.data.message);
+      // console.log("Room deleted successfully");
     } catch (error) {
+      toast.error("internal server error");
       console.error("Error deleting room:", error);
     }
     setRefresh(!refresh);
@@ -137,8 +119,11 @@ function B_Dashboard() {
                 <li className="py-4 border border-gray-500 text-center">
                   Contact No.
                 </li>
-                <li className="py-4 border border-gray-500 text-center">
-                  Setting
+                <li
+                  className="py-4 border border-gray-500 text-center"
+                  onClick={() => setUploadPhoto(true)}
+                >
+                  Add Hotel Img.
                 </li>
 
                 <li className="py-4 border border-gray-500 text-center">
@@ -338,22 +323,6 @@ function B_Dashboard() {
                             >
                               view
                             </button>
-                            {/* <button
-                              onClick={() =>
-                                changeStatus("accept", booking._id)
-                              }
-                              className=" px-4  rounded-md bg-green-500 text-white outline-none"
-                            >
-                              Accept
-                            </button>
-                            <button
-                              onClick={() =>
-                                changeStatus("reject", booking._id)
-                              }
-                              className=" px-4 mt-1 rounded-md bg-red-500 text-white outline-none"
-                            >
-                              Reject
-                            </button> */}
                           </div>
                         </div>
                       ))}
@@ -393,18 +362,37 @@ function B_Dashboard() {
                   Reject
                 </button>
               ) : (
-                <button
-                  onClick={() => {
-                    changeStatus("accept", viewBookingDetails._id);
-                    setviewBooking(false);
-                  }}
-                  className="px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors duration-200"
-                >
-                  Accept
-                </button>
+                <div className="space-x-2">
+                  <button
+                    onClick={() => {
+                      changeStatus("accept", viewBookingDetails._id);
+                      setviewBooking(false);
+                    }}
+                    className="px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors duration-200"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => {
+                      changeStatus("reject", viewBookingDetails._id);
+                      setviewBooking(false);
+                    }}
+                    className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors duration-200"
+                  >
+                    Reject
+                  </button>
+                </div>
               )}
             </div>
           </div>
+        </div>
+      )}
+      {uploadPhoto && (
+        <div className="fixed w-full flex justify-center top-0">
+          <UploadHotelPicture
+            hotelId={hotel._id}
+            setUploadPhoto={setUploadPhoto}
+          />
         </div>
       )}
     </>

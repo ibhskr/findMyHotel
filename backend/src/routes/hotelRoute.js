@@ -1,26 +1,24 @@
 import express from "express";
-import { newHotel } from "../controllers/hotelController.js";
-import { deleteRoom, newRoom } from "../controllers/roomController.js";
+
 import {
   getHotel,
   getOneHotel,
   getRoom,
   getOneRoom,
-} from "../controllers/getDetails.js";
-import {
-  bookingMyHotel,
-  getBookingDetails,
-} from "../controllers/bookingController.js";
-import { searchByCity } from "../controllers/searchController.js";
+} from "../controllers/user/getDetails.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+import { bookingMyHotel } from "../controllers/user/bookingController.js";
+import { searchByCity } from "../controllers/user/searchController.js";
+
 //--
 const router = express.Router();
 
-router.route("/hotel").get(getHotel); // get all hotels
-router.route("/rooms").get(getRoom); // get all rooms
-router.route("/getHotel/:id").get(getOneHotel); // get single hotel
-router.route("/get-one-room/:id").get(getOneRoom); // get single room
-router.route("/booking-my-hotel").post(bookingMyHotel); //booking
-router.route("/search-by-city").get(searchByCity);
+router.route("/api/hotel").get(getHotel); // get all hotels
+router.route("/api/rooms").get(getRoom); // get all rooms
+router.route("/api/getHotel/:id").get(getOneHotel); // get single hotel
+router.route("/api/get-one-room/:id").get(getOneRoom); // get single room
+router.route("/api/booking-my-hotel").post(authMiddleware, bookingMyHotel); //booking
+router.route("/api/search-by-city").get(searchByCity);
 
 // router.route("/getMyHotelDetails/:id").get(getOneHotel);
 // router.route("/getMyHotelDetails/:id").get(getMyHotelDetails);

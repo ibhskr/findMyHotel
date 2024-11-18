@@ -10,7 +10,7 @@ function Rooms() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/rooms");
+        const res = await axios.get("/api/rooms");
         setRooms(res.data);
         setLoading(false);
       } catch (error) {
@@ -31,7 +31,7 @@ function Rooms() {
 
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold m-6">Rooms</h1>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap justify-evenly">
           {rooms?.length > 0
             ? rooms?.map((room, index) => <RoomCard key={index} room={room} />)
             : !loading && <p>No rooms available</p>}

@@ -13,7 +13,6 @@ function App() {
       setShowLoader(false);
     }, 1500);
 
-    // Clean up the timer
     return () => clearTimeout(timer);
   }, []);
 

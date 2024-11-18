@@ -22,7 +22,7 @@ function BookingSuccessful() {
             Go to Homepage
           </button>
           <button
-            onClick={() => navigate("/booking/history")} // Redirect to booking history
+            onClick={() => navigate("/user")} // Redirect to booking history
             className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           >
             View Booking History

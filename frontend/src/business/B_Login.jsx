@@ -4,11 +4,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserId } from "../redux/slice";
-//---
+import { setBusinessId } from "../redux/slice";
+
 function B_Login() {
   const navigate = useNavigate();
-  const [singUp, setSingUp] = useState(false);
+  const [signUp, setSignUp] = useState(false);
   const dispatch = useDispatch();
   const {
     register,
@@ -19,52 +19,39 @@ function B_Login() {
 
   useEffect(() => {
     reset();
-  }, [singUp, reset]);
+  }, [signUp, reset]);
+
   const onSubmit = async (data) => {
     try {
-      let res;
-      if (singUp) {
-        // signup
-        res = await axios.post("http://localhost:8000/business-signup", data);
-      } else {
-        // signin
-        res = await axios.post("http://localhost:8000/business-login", data);
-      }
-      console.log(res.data);
+      const endpoint = signUp ? "/api/business-signup" : "/api/business-login";
+      const res = await axios.post(endpoint, data);
+
       const userId = res.data.user?._id;
-      dispatch(setUserId(userId));
+      dispatch(setBusinessId(userId));
 
       if (!userId) {
-        setSingUp(!singUp);
+        setSignUp(!signUp);
       }
-      if (res.data.success == true && userId) {
+
+      if (res.data.success && userId) {
         toast.success(res.data.message);
-        // navigate(`dashboard/${userId}`);
         navigate("select-your-hotel");
       }
     } catch (error) {
-      // Check if the error has a response (server-side error)
       if (error.response) {
         toast.error(error.response.data.message || "Something went wrong!");
       } else if (error.request) {
-        // The request was made but no response was received (network error)
         toast.error("No response from server. Please try again later.");
       } else {
-        // Something else happened while setting up the request
         toast.error("An unexpected error occurred.");
       }
     }
   };
 
-  // name: { type: String, required: true },
-  // email: { type: String, required: true, unique: true },
-  // password: { type: String, required: true },
-  // phone: { type: String, required:true },
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-        {singUp ? (
+        {signUp ? (
           <>
             <h1 className="text-2xl font-bold mb-4 text-center">
               Create New Account
@@ -72,38 +59,53 @@ function B_Login() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Organization name
+                  Organization Name
                 </label>
                 <input
                   type="text"
                   {...register("orgname", {
-                    required: "Organization name Id is required",
+                    required: "Organization name is required",
                   })}
-                  placeholder="Organization name"
+                  placeholder="Organization Name"
                   className="mt-1 p-2 border border-gray-300 rounded w-full"
                 />
+                {errors.orgname && (
+                  <p className="text-red-600 text-sm">
+                    {errors.orgname.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Email Id
+                  Email
                 </label>
                 <input
                   type="email"
-                  {...register("email", { required: "Hotel Id is required" })}
-                  placeholder="Email Id"
+                  {...register("email", {
+                    required: "Email is required",
+                  })}
+                  placeholder="Email"
                   className="mt-1 p-2 border border-gray-300 rounded w-full"
                 />
+                {errors.email && (
+                  <p className="text-red-600 text-sm">{errors.email.message}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Phone no.
+                  Phone Number
                 </label>
                 <input
                   type="tel"
-                  {...register("phone", { required: "Hotel Id is required" })}
-                  placeholder="Phone no."
+                  {...register("phone", {
+                    required: "Phone number is required",
+                  })}
+                  placeholder="Phone Number"
                   className="mt-1 p-2 border border-gray-300 rounded w-full"
                 />
+                {errors.phone && (
+                  <p className="text-red-600 text-sm">{errors.phone.message}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -117,6 +119,11 @@ function B_Login() {
                   placeholder="Password"
                   className="mt-1 p-2 border border-gray-300 rounded w-full"
                 />
+                {errors.password && (
+                  <p className="text-red-600 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
               <div className="flex flex-col">
                 <input
@@ -125,10 +132,10 @@ function B_Login() {
                   className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full cursor-pointer"
                 />
                 <p
-                  onClick={() => setSingUp(!singUp)}
-                  className=" text-sm text-blue-800 hover:cursor-pointer"
+                  onClick={() => setSignUp(false)}
+                  className="text-sm text-blue-800 hover:cursor-pointer mt-2"
                 >
-                  Already have account ? Login
+                  Already have an account? Login
                 </p>
               </div>
             </form>
@@ -139,14 +146,19 @@ function B_Login() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Email Id
+                  Email
                 </label>
                 <input
                   type="email"
-                  {...register("email", { required: "Hotel Id is required" })}
-                  placeholder="Email Id"
+                  {...register("email", {
+                    required: "Email is required",
+                  })}
+                  placeholder="Email"
                   className="mt-1 p-2 border border-gray-300 rounded w-full"
                 />
+                {errors.email && (
+                  <p className="text-red-600 text-sm">{errors.email.message}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -160,6 +172,11 @@ function B_Login() {
                   placeholder="Password"
                   className="mt-1 p-2 border border-gray-300 rounded w-full"
                 />
+                {errors.password && (
+                  <p className="text-red-600 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
               <div className="flex flex-col">
                 <input
@@ -168,10 +185,10 @@ function B_Login() {
                   className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full cursor-pointer"
                 />
                 <p
-                  onClick={() => setSingUp(!singUp)}
-                  className=" text-sm text-blue-800 hover:cursor-pointer"
+                  onClick={() => setSignUp(true)}
+                  className="text-sm text-blue-800 hover:cursor-pointer mt-2"
                 >
-                  create account
+                  Create an account
                 </p>
               </div>
             </form>

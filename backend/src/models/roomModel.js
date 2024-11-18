@@ -8,6 +8,12 @@ const roomSchema = new mongoose.Schema(
       ref: "Hotel",
       required: true,
     },
+    // Array of room images
+    roomImage: [
+      {
+        type: String,
+      },
+    ],
     // Number of rooms available
     noOfRoom: { type: Number, required: true, default: 0 },
     // Room type, e.g., Single, Double, Suite

@@ -17,9 +17,7 @@ function BookingPage() {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/get-one-room/${id}`
-        );
+        const response = await axios.get(`/api/get-one-room/${id}`);
         setRoom(response.data);
       } catch (error) {
         console.error("Error fetching room:", error);
@@ -33,7 +31,7 @@ function BookingPage() {
     const finalData = { ...data, room };
     try {
       console.log(finalData);
-      await axios.post("http://localhost:8000/booking-my-hotel", finalData);
+      await axios.post("/api/booking-my-hotel", finalData);
       alert("Booking successful!");
       navigate("successful", { replace: true }); // Use relative path
     } catch (error) {
@@ -53,7 +51,7 @@ function BookingPage() {
       <div className="flex flex-col md:flex-row justify-center items-center md:items-start">
         <div className="border shadow-xl p-4 m-6 rounded max-w-96 sm:min-w-60 ">
           <img
-            src={room?.img || altRoomImg}
+            src={hotel?.hotelImage || altRoomImg}
             alt=""
             className="rounded-xl object-cover "
           />

@@ -8,7 +8,7 @@ function Hotels() {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/hotel");
+        const res = await axios.get("/api/hotel");
         setHotel(res.data);
         // console.log(res.data);
         setLoading(false);

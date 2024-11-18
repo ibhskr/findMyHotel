@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PiUserLight } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { RiCloseLargeFill } from "react-icons/ri";
 import Login from "./Login";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+
+//
+// ----------------  H E A D E R  L O G I C ---------------
+//
 function Header() {
   const [showLogin, setShowLogin] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const isAuthenticated = user.isAuthenticated;
+  // console.log(isAuthenticated);
+
+  const handleLoginClick = () => {
+    setShowLogin(!showLogin);
+  };
+
   return (
     <>
       <div className="flex flex-col sm:flex-row justify-between border-2 p-4">
-        {/* logo */}
+        {/* Logo */}
         <div>
           <h1
             onClick={() => navigate("/")}
@@ -18,27 +34,49 @@ function Header() {
             FindMyHotel
           </h1>
         </div>
-        {/* search */}
+
+        {/* Search */}
         <div>
-          <form action="" className=" h-8  ">
+          <form action="" className="h-8">
             <input
               type="text"
               className="border h-full outline-none border-gray-600 px-2"
             />
             <button
               type="submit"
-              className=" bg-green-400 h-full border border-gray-600 px-2 text-white "
+              className="bg-green-400 h-full border border-gray-600 px-2 text-white"
             >
               Search
             </button>
           </form>
         </div>
-        {/* user */}
-        <div>
-          <button onClick={() => setShowLogin(!showLogin)}>Login</button>
+
+        {/* User Section */}
+        <div className="flex items-center">
+          {isAuthenticated ? (
+            // If user is authenticated, show user icon or user info
+            <button
+              onClick={() => navigate("/user")}
+              className="flex items-center border-2 border-gray-600 px-4 py-2 rounded hover:cursor-pointer"
+            >
+              <PiUserLight size={24} />
+              <span className="ml-2">Welcome, User!</span>
+              {/* You could add a logout button here */}
+            </button>
+          ) : (
+            // If not authenticated, show login button
+            <button
+              onClick={handleLoginClick}
+              className="border-2 border-gray-600 px-4 py-2 rounded"
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
-      {showLogin && <Login />}
+
+      {/* Show Login Form if showLogin is true */}
+      {showLogin && <Login setShowLogin={setShowLogin} />}
     </>
   );
 }
