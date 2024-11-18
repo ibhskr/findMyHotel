@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import altRoomImg from "../assets/room.avif";
+import Loader2 from "../loader/Loader2";
 function BookingPage() {
   const { id } = useParams();
   const [room, setRoom] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -17,10 +19,13 @@ function BookingPage() {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/get-one-room/${id}`);
         setRoom(response.data);
       } catch (error) {
         console.error("Error fetching room:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -39,8 +44,8 @@ function BookingPage() {
       alert("Booking failed. Please try again.");
     }
   };
-
-  if (!room) return <p>Loading...</p>;
+  if (loading) return <Loader2 />;
+  if (!room) return <p>Room is not found.</p>;
 
   const { hotel } = room;
   const address = `${hotel?.address}, ${hotel?.city}, ${hotel?.state}, ${hotel?.pin}`;

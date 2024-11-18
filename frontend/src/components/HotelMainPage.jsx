@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, Outlet } from "react-router-dom";
 import altHotelImg from "../assets/altHotelImg.avif";
 import RoomCard from "./RoomCard";
+import Loader2 from "../loader/Loader2";
 
 const HotelDetails = () => {
   const hotelId = useParams();
@@ -26,7 +27,7 @@ const HotelDetails = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader2 />;
   }
 
   if (error) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import HotelCard from "./HotelCard";
 import axios from "axios";
 import LinearIndeterminate from "./ProgressBar";
+import Loader2 from "../loader/Loader2";
 function Hotels() {
   const [hotel, setHotel] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,11 +24,7 @@ function Hotels() {
 
   return (
     <>
-      {loading && (
-        <div>
-          <LinearIndeterminate />
-        </div>
-      )}
+      {loading && <Loader2 />}
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold m-6">Hotels</h1>
         <div className="flex flex-wrap">

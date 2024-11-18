@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUserId } from "../redux/slice";
 import toast from "react-hot-toast";
+import Loader2 from "../loader/Loader2";
 
 //
 // ---------- U S E R  F U N C T I O N --------------
@@ -55,7 +56,7 @@ function User() {
     })();
   }, [isAuthenticated]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader2 />;
   if (error) return <p>{error}</p>;
   if (!user) return <p>No user data available</p>;
 

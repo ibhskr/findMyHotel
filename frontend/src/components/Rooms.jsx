@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import LinearIndeterminate from "./ProgressBar";
 import axios from "axios";
 import RoomCard from "./RoomCard";
+import Loader2 from "../loader/Loader2";
 
 function Rooms() {
   const [rooms, setRooms] = useState([]);
@@ -23,13 +24,9 @@ function Rooms() {
   // console.log(rooms);
   return (
     <>
-      {loading && (
-        <div>
-          <LinearIndeterminate />
-        </div>
-      )}
+      {loading && <Loader2 />}
 
-      <div className="container mx-auto">
+      <div className="flex flex-col mx-auto">
         <h1 className="text-3xl font-bold m-6">Rooms</h1>
         <div className="flex flex-wrap justify-evenly">
           {rooms?.length > 0

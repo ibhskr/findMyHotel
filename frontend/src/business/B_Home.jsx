@@ -2,36 +2,54 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Loader2 from "../loader/Loader2";
 
 function B_Home() {
   const navigate = useNavigate();
   const businessId = useSelector((state) => state.business.business);
   const [listedHotel, setListedHotel] = useState([]);
+  const [organization, setOrganization] = useState();
+  const [loading, setLoading] = useState(false);
   // console.log(businessId);
+
   useEffect(() => {
-    const getMyHotel = async () => {
+    (async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/getmyhotels/${businessId}`);
+
+        setOrganization(response.data);
         setListedHotel(response.data.listedHotel);
       } catch (error) {
         console.error("Error fetching hotels:", error);
+      } finally {
+        setLoading(false);
       }
-    };
-    if (businessId) {
-      getMyHotel();
-    }
+    })();
   }, [businessId]);
-
+  if (loading) return <Loader2 />;
+  // console.log(listedHotel);
+  // console.log(organization);
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8 text-indigo-700">
-        Select Your Hotel
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="flex flex-col items-center mb-10">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-600">
+          Select Your Hotel :{" "}
+          <span className="text-emerald-600">{organization?.orgname}</span>
+        </h1>
+        <p>Phone Number: {organization?.phone}</p>
+        <p>Email Id: {organization?.email}</p>
+        <p>No of Listed Hotels : {organization?.listedHotel?.length || 0}</p>
+        <p>No of Listed Rooms : {organization?.listedRoom?.length || 0}</p>
+        <p>CreatedAt: {organization?.createdAt}</p>
+        <p>Last UpdatedAt: {organization?.updatedAt}</p>
+      </div>
+
+      <div className="flex justify-center space-x-4 ">
         {listedHotel.map((hotel) => (
           <div
             key={hotel._id}
-            className="bg-white w-full sm:w-80 shadow-lg rounded-lg p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
+            className="bg-white w-full sm:w-60 shadow-sm shadow-slate-950 rounded-lg p-4 transition-transform  transform hover:scale-105 "
             onClick={() => navigate(`/business/dashboard/${hotel._id}`)}
           >
             <div className="w-full flex justify-center">
@@ -50,7 +68,7 @@ function B_Home() {
         ))}
         <div
           onClick={() => navigate(`/business/add-hotel`)}
-          className="flex justify-center items-center bg-indigo-400 text-white text-lg font-semibold rounded-lg cursor-pointer transition-transform transform hover:scale-105 hover:bg-indigo-500"
+          className="flex justify-center items-center w-full shadow-sm shadow-slate-950 sm:w-60 bg-gray-400 text-white text-lg font-semibold rounded-lg cursor-pointer transition-transform transform hover:scale-105 "
         >
           <div className="text-center">
             <p className="text-4xl">+</p>

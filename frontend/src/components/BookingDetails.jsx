@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loader2 from "../loader/Loader2";
 
 function BookingDetails() {
   const { id } = useParams(); // Destructure id from the params
@@ -25,7 +26,8 @@ function BookingDetails() {
     fetchBookingDetails();
   }, [id]); // Add id to dependency array to refetch if it changes
 
-  if (loading) return <p className="text-center text-xl ">Loading...</p>;
+  // if (loading) return <p className="text-center text-xl ">Loading...</p>;
+  if (loading) return <Loader2 />;
   if (error) return <p className="text-center text-xl text-red-500">{error}</p>;
   if (!details) return <p className="text-center text-xl">No data available</p>;
 
