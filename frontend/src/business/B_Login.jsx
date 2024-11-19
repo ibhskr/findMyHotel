@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setBusinessId } from "../redux/slice";
@@ -25,16 +26,16 @@ function B_Login() {
     try {
       const endpoint = signUp ? "/api/business-signup" : "/api/business-login";
       const res = await axios.post(endpoint, data);
-
+      console.log(res.data);
       const userId = res.data.user?._id;
       dispatch(setBusinessId(userId));
+      toast.success(res.data.message);
 
       if (!userId) {
         setSignUp(!signUp);
       }
 
       if (res.data.success && userId) {
-        toast.success(res.data.message);
         navigate("select-your-hotel");
       }
     } catch (error) {

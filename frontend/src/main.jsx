@@ -22,6 +22,7 @@ import BookingSuccessful from "./components/BookingSuccessful.jsx";
 import BookingDetails from "./components/BookingDetails.jsx";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import SearchResults from "./components/SearchResults.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: "/booking/room/:id/successful", element: <BookingSuccessful /> },
       { path: "/user", element: <User /> },
       { path: "/booking-details/:id", element: <BookingDetails /> },
+      { path: "/search/:search", element: <SearchResults /> },
     ],
   },
   {

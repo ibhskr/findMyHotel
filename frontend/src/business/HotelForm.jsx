@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 function HotelForm() {
   const navigate = useNavigate();
-  const userId = useSelector((state) => state.user.userId);
+  const userId = useSelector((state) => state.business.business);
+
   const {
     register,
     handleSubmit,
@@ -16,11 +18,7 @@ function HotelForm() {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const res = await axios.post(
-        `http://localhost:8000/add-new-hotel/${userId}`,
-        data
-      );
-      // console.log("res from backed" + res.data);
+      const res = await axios.post(`/api/add-new-hotel/${userId}`, data);
       toast.success(res.data.message);
       navigate("/business/select-your-hotel");
     } catch (error) {
@@ -30,149 +28,186 @@ function HotelForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-3xl">
         <h1 className="text-2xl font-bold mb-4 text-center">Add New Hotel</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Hotel Name
-            </label>
-            <input
-              type="text"
-              {...register("hotelname", { required: "Hotel name is required" })}
-              placeholder="Hotel Name"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-            {errors.hotelname && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.hotelname.message}
-              </p>
-            )}
+          <button
+            onClick={() => navigate(-1)}
+            className="border border-black px-3"
+          >
+            Back
+          </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Hotel Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Hotel Name
+              </label>
+              <input
+                type="text"
+                {...register("hotelname", {
+                  required: "Hotel name is required",
+                })}
+                placeholder="Hotel Name"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+              {errors.hotelname && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.hotelname.message}
+                </p>
+              )}
+            </div>
+
+            {/* Address */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Address
+              </label>
+              <input
+                type="text"
+                {...register("address", { required: "Address is required" })}
+                placeholder="Address"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+              {errors.address && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.address.message}
+                </p>
+              )}
+            </div>
+
+            {/* City */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                City
+              </label>
+              <input
+                type="text"
+                {...register("city", { required: "City is required" })}
+                placeholder="City"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+              {errors.city && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.city.message}
+                </p>
+              )}
+            </div>
+
+            {/* State */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                State
+              </label>
+              <input
+                type="text"
+                {...register("state", { required: "State is required" })}
+                placeholder="State"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+              {errors.state && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.state.message}
+                </p>
+              )}
+            </div>
+
+            {/* Country */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Country
+              </label>
+              <input
+                type="text"
+                {...register("country", { required: "Country is required" })}
+                placeholder="Country"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+              {errors.country && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.country.message}
+                </p>
+              )}
+            </div>
+
+            {/* PIN Code */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                PIN Code
+              </label>
+              <input
+                type="number"
+                {...register("pin", { required: "PIN code is required" })}
+                placeholder="PIN Code"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+              {errors.pin && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.pin.message}
+                </p>
+              )}
+            </div>
+
+            {/* Contact Number */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Contact Number
+              </label>
+              <input
+                type="number"
+                {...register("phone", {
+                  required: "Contact number is required",
+                })}
+                placeholder="Contact number"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+              {errors.phone && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Description
+              </label>
+              <textarea
+                {...register("description")}
+                placeholder="Description"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+            </div>
+
+            {/* Rating */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Rating
+              </label>
+              <input
+                type="number"
+                {...register("rating", { min: 0, max: 5 })}
+                placeholder="Rating (0-5)"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+            </div>
+
+            {/* Amenities */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Amenities
+              </label>
+              <input
+                type="text"
+                {...register("amenities")}
+                placeholder="Amenities (comma-separated)"
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+              />
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Address
-            </label>
-            <input
-              type="text"
-              {...register("address", { required: "Address is required" })}
-              placeholder="Address"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-            {errors.address && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.address.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              City
-            </label>
-            <input
-              type="text"
-              {...register("city", { required: "City is required" })}
-              placeholder="City"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-            {errors.city && (
-              <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              State
-            </label>
-            <input
-              type="text"
-              {...register("state", { required: "State is required" })}
-              placeholder="State"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-            {errors.state && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.state.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Country
-            </label>
-            <input
-              type="text"
-              {...register("country", { required: "Country is required" })}
-              placeholder="Country"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-            {errors.country && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.country.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              PIN Code
-            </label>
-            <input
-              type="number"
-              {...register("pin", { required: "PIN code is required" })}
-              placeholder="PIN Code"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-            {errors.pin && (
-              <p className="text-red-500 text-sm mt-1">{errors.pin.message}</p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              CONTACT NUMBER
-            </label>
-            <input
-              type="number"
-              {...register("phone", { required: "Contact number is required" })}
-              placeholder="Contact number"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.phone.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Description
-            </label>
-            <textarea
-              {...register("description")}
-              placeholder="Description"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Rating
-            </label>
-            <input
-              type="number"
-              {...register("rating", { min: 0, max: 5 })}
-              placeholder="Rating (0-5)"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Amenities
-            </label>
-            <input
-              type="text"
-              {...register("amenities")}
-              placeholder="Amenities (comma-separated)"
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            />
-          </div>
+
+          {/* Submit Button */}
           <div>
             <button
               type="submit"

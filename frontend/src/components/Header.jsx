@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { PiUserLight } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { RiCloseLargeFill } from "react-icons/ri";
 import Login from "./Login";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-
-//
-// ----------------  H E A D E R  L O G I C ---------------
-//
+import HotelCard from "./HotelCard";
+import Loader2 from "../loader/Loader2";
 function Header() {
   const [showLogin, setShowLogin] = useState(false);
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const isAuthenticated = user.isAuthenticated;
-  // console.log(isAuthenticated);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // Handle search form submission
+  const onSubmit = async (data) => {
+    navigate(`/search/${data.city}`);
+  };
+
+  // Handle login button click
   const handleLoginClick = () => {
     setShowLogin(!showLogin);
   };
@@ -35,12 +44,14 @@ function Header() {
           </h1>
         </div>
 
-        {/* Search */}
+        {/* Search Form */}
         <div>
-          <form action="" className="h-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="h-8">
             <input
               type="text"
+              {...register("city", { required: true })}
               className="border h-full outline-none border-gray-600 px-2"
+              placeholder="Enter city"
             />
             <button
               type="submit"
@@ -49,22 +60,23 @@ function Header() {
               Search
             </button>
           </form>
+          {errors.city && (
+            <span className="text-red-500">City is required</span>
+          )}{" "}
+          {/* Display error if city is missing */}
         </div>
 
         {/* User Section */}
         <div className="flex items-center">
           {isAuthenticated ? (
-            // If user is authenticated, show user icon or user info
             <button
               onClick={() => navigate("/user")}
               className="flex items-center border-2 border-gray-600 px-4 py-2 rounded hover:cursor-pointer"
             >
               <PiUserLight size={24} />
               <span className="ml-2">Welcome, User!</span>
-              {/* You could add a logout button here */}
             </button>
           ) : (
-            // If not authenticated, show login button
             <button
               onClick={handleLoginClick}
               className="border-2 border-gray-600 px-4 py-2 rounded"
@@ -74,7 +86,6 @@ function Header() {
           )}
         </div>
       </div>
-
       {/* Show Login Form if showLogin is true */}
       {showLogin && <Login setShowLogin={setShowLogin} />}
     </>

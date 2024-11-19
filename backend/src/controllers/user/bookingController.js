@@ -5,7 +5,7 @@ import User from "../../models/userModel.js";
 export const bookingMyHotel = async (req, res) => {
   try {
     const { mobileNo } = req.user;
-    console.log(mobileNo);
+    // console.log(mobileNo);
     const {
       name,
       email,

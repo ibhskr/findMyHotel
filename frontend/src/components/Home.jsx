@@ -12,16 +12,16 @@ function Home() {
     <div>
       <div className="w-full hidden sm:block">
         <ul className="flex flex-row w-100% justify-between px-4">
-          <li onClick={() => navigate("/mumbai")}>Mumbai</li>
-          <li>Delhi</li>
-          <li>Bengaluru</li>
-          <li>Hyderabad</li>
-          <li>Ahmedabad</li>
-          <li>Chennai</li>
-          <li>Kolkata</li>
-          <li>Pune</li>
-          <li>Jaipur</li>
-          <li>Surat</li>
+          <li onClick={() => navigate("/search/Mumbai")}>Mumbai</li>
+          <li onClick={() => navigate("/search/Kolkata")}>Kolkata</li>
+          <li onClick={() => navigate("/search/Jaipur")}>Jaipur</li>
+          <li onClick={() => navigate("/search/Bhubaneswar")}>Bhubaneswar</li>
+          <li onClick={() => navigate("/search/Bangalore")}>Bangalore</li>
+          <li onClick={() => navigate("/search/Delhi")}>Delhi</li>
+          <li onClick={() => navigate("/search/Gurugram")}>Gurugram</li>
+          <li onClick={() => navigate("/search/Noida")}>Noida</li>
+          <li onClick={() => navigate("/search/Haydrabad")}>Haydrabad</li>
+          <li onClick={() => navigate("/search/Guwahati")}>Guwahati</li>
         </ul>
       </div>
 

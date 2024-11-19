@@ -22,8 +22,9 @@ function HotelCard({ hotel }) {
       </div>
       <div className="h-40 overflow-y-scroll">
         <p className="font-bold hover:text-blue-600 ">{hotel?.hotelname}</p>
-        <p className="text-gray-700 text-sm">{hotel?.description}</p>
-        <p className="text-sm">{hotel?.address}</p>
+
+        <p className="font-semibold text-sm">{hotel?.address}</p>
+        <p className="text-gray-700 text-sm my-4">{hotel?.description}</p>
         <div className="">
           {hotel.amenities.map((amenity, index) => (
             <span

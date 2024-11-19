@@ -64,8 +64,9 @@ function BookingPage() {
           <div className="space-y-1 p-2">
             <p className="font-bold">Hotel Name: {hotel?.hotelname}</p>
             <p>Room Type: {room?.type}</p>
-            <p>Price: {room?.price}</p>
+            <p>Price: {room?.price} Rupee/Room</p>
             <p>Address: {address}</p>
+            <p className="text-sm">{hotel?.description}</p>
           </div>
         </div>
 

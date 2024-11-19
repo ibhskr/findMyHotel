@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader2 from "../loader/Loader2";
-
+import altHotelImg from "../assets/altHotelImg.avif";
 function B_Home() {
   const navigate = useNavigate();
   const businessId = useSelector((state) => state.business.business);
@@ -49,21 +49,23 @@ function B_Home() {
         {listedHotel.map((hotel) => (
           <div
             key={hotel._id}
-            className="bg-white w-full sm:w-60 shadow-sm shadow-slate-950 rounded-lg p-4 transition-transform  transform hover:scale-105 "
+            className="bg-white w-full sm:w-60 shadow-sm shadow-slate-950 rounded-lg p-4 transition-transform  transform hover:scale-105 cursor-pointer"
             onClick={() => navigate(`/business/dashboard/${hotel._id}`)}
           >
             <div className="w-full flex justify-center">
               <img
-                src={hotel.hotelImage}
-                alt=""
-                className="h-32 bg-cover border-2 "
+                src={hotel.hotelImage || altHotelImg}
+                alt="No image available"
+                className="h-32 w-full bg-cover border-2 "
               />
             </div>
 
             <h2 className="text-xl font-semibold text-indigo-700">
               {hotel.hotelname}
             </h2>
-            <p className="text-gray-600">{hotel.description}</p>
+            <p className="text-gray-600">
+              {hotel.address}, {hotel.city}, {hotel.state}
+            </p>
           </div>
         ))}
         <div

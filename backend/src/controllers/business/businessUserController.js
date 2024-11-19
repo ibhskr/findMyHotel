@@ -33,16 +33,16 @@ export const loginBusinessUser = async (req, res) => {
   try {
     const user = await businessUser.findOne({ email });
     if (!user) {
-      return res.status(404).json({
+      return res.status(200).json({
         message: "User not found",
         success: false,
       });
-      console.log("user not found");
+      // console.log("user not found");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({
+      return res.status(200).json({
         message: "Email and password do not match",
         success: false,
       });

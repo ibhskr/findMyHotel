@@ -25,9 +25,9 @@ function Hotels() {
   return (
     <>
       {loading && <Loader2 />}
-      <div className="container mx-auto">
+      <div className="container mx-auto flex flex-col">
         <h1 className="text-3xl font-bold m-6">Hotels</h1>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap justify-center">
           {hotel.length > 0
             ? hotel.map((hotel, index) => (
                 <HotelCard key={index} hotel={hotel} />
