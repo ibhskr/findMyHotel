@@ -184,21 +184,16 @@ function B_Dashboard() {
 
             <div className="p-4">
               <div className="overflow-x-auto">
+                {/* display room list */}
                 {seeRooms ? (
-                  <div className=" overflow-x-scroll w-full">
-                    <div className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                      <h1 className="text-2xl font-bold mb-4 text-center">
+                  <div className=" w-full">
+                    <div className="min-w-full overflow-auto bg-white shadow-md  rounded-lg">
+                      <h1 className="text-2xl w-full  font-bold mb-4 text-center">
                         Room List
                       </h1>
-                      <table className="min-w-full divide-y divide-gray-200 overflow-scroll">
+                      <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                           <tr>
-                            {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          ID
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Hotel ID
-                        </th> */}
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               No. of Rooms
                             </th>
@@ -225,12 +220,6 @@ function B_Dashboard() {
                         <tbody className="bg-white divide-y divide-gray-200">
                           {rooms.map((room) => (
                             <tr key={room._id}>
-                              {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {room._id}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {room.hotel}
-                          </td> */}
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {room.noOfRoom}
                               </td>
@@ -241,18 +230,26 @@ function B_Dashboard() {
                                 {room.price}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {room.description}
+                                {room.description.length > 50
+                                  ? `${room.description.slice(0, 50)}...`
+                                  : room.description}
                               </td>
+
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {room.amenities.join(", ")}
+                                {room.amenities.join(", ").length > 50
+                                  ? `${room.amenities
+                                      .join(", ")
+                                      .slice(0, 50)}...`
+                                  : room.amenities.join(", ")}
                               </td>
+
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {new Date(room.createdAt).toLocaleString()}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <button
                                   onClick={() => deleteRoomHandle(room._id)}
-                                  className=" bg-red-500 p-2 text-white rounded-md"
+                                  className="bg-red-500 p-2 text-white rounded-md hover:bg-red-600 transition"
                                 >
                                   Delete
                                 </button>
